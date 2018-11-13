@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="backup.wingos.com.wingbackup.MainActivity">
+
+
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="This is new Phone"
+        android:id="@+id/newPhoneBtn"
+        android:background="@drawable/main_text_background"
+        android:textColor="@color/colorWhite"/>
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="This is old Phone"
+        android:id="@+id/oldPhoneBtn"
+        android:background="@drawable/main_text_background"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/colorWhite"/>
+
+
+</LinearLayout>
