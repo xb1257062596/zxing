@@ -49,7 +49,6 @@ public class NewPhoneActivity extends AppCompatActivity {
             }
         });
         createQrCode();
-        showConnectDialog();
     }
 
     /**

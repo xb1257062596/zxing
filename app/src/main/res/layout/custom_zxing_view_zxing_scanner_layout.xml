@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <backup.wingos.com.wingbackup.custom.CustomBarcodeView
+        android:id="@+id/zxing_custom_barcode_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:zxing_framing_rect_height="240dp"
+        app:zxing_framing_rect_width="240dp" />
+
+
+    <backup.wingos.com.wingbackup.custom.CustomViewfinderView
+        android:id="@+id/zxing_custom_viewfinder_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:zxing_viewfinder_mask="#757575" />
+
+
+</merge>
