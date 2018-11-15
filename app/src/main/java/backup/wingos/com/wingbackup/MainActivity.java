@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button oldPhoneBtn;
 
+    private Button testBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.oldPhoneBtn:
                 scanQrCode();
                 break;
+            case R.id.testBtn:
+                startActivity(new Intent(MainActivity.this,OldPhoneActivity.class));
         }
     }
 
@@ -59,11 +63,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        String content=result.getContents();
         if(result != null) {
-            if(result.getContents() == null) {
+            if(content == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this,OldPhoneActivity.class);
+                intent.putExtra("CONTENT",content);
+                startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

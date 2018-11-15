@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <backup.wingos.com.wingbackup.view.ProgressBarView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:progressbar_inside_circle_radius="80dp"
+        app:progressbar_outside_circle_radius="90dp"
+        app:progressbar_circle_width="4dp"
+        app:progressbar_default_color="#EAF0FD"
+        app:progressbar_send_color="#FF137DFF"/>
 
 </LinearLayout>
