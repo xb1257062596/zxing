@@ -27,9 +27,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         newPhoneBtn = findViewById(R.id.newPhoneBtn);
         oldPhoneBtn = findViewById(R.id.oldPhoneBtn);
+        testBtn = findViewById(R.id.testBtn);
 
         newPhoneBtn.setOnClickListener(this);
         oldPhoneBtn.setOnClickListener(this);
+        testBtn.setOnClickListener(this);
     }
 
     @Override
