@@ -67,9 +67,9 @@ public class CustomViewfinderView extends ViewfinderView {
         super(context, attrs);
         customPaint = new Paint();
         customPaint.setStyle(Paint.Style.FILL);
-        color=getResources().getColor(R.color.colorPrimary);
+        color=Color.parseColor("#0097FF");
         customPaint.setAntiAlias(true);
-        cornerWidth=50;
+        cornerWidth=dp2px(getContext(),10);
         cornerHeight=8;
         text="Scan the QR code from new phone";
         isFirst = true;
@@ -200,5 +200,12 @@ public class CustomViewfinderView extends ViewfinderView {
             thread=null;
         }
     }
+
+
+    public static int dp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
 
 }

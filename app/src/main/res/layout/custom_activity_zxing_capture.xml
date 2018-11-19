@@ -61,18 +61,21 @@
                 android:layout_gravity="center"
                 android:background="@color/zxing_transparent"
                 android:text="Can't works?"
+                android:textSize="14sp"
                 android:textColor="@color/zxing_status_text" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Connect manually"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#0097FF"
+                android:textSize="14sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" by the WLAN"
+                android:textSize="14sp"
                 android:textColor="@color/zxing_status_text" />
 
         </LinearLayout>

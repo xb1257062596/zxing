@@ -18,10 +18,10 @@
     </style>
 
     <declare-styleable name="ProgressBarView">
-        <attr name="progressbar_type" format="integer"></attr>  //type代表类型 1:发送数据时候 2.接收数据的时候
-        <attr name="progressbar_send_color" format="color"></attr> //发送数据时候圆弧的颜色
-        <attr name="progressbar_receive_color" format="color"></attr> //接收数据时候圆弧的颜色
-        <attr name="progressbar_default_color" format="color"></attr> //默认圆弧的颜色
+        <attr name="progressbar_color_start" format="color"></attr> //圆弧的颜色
+        <attr name="progressbar_color_end" format="color"></attr>
+        <attr name="progressbar_default_color" format="color"></attr>
+        <attr name="progressbar_shadow_color" format="color"></attr>  //阴影的颜色
         <attr name="progressbar_inside_circle_radius" format="dimension"/> //内部圆的半径
         <attr name="progressbar_outside_circle_radius" format="dimension"/> //外部圆的半径
         <attr name="progressbar_circle_width" format="dimension"/>   //默认圆弧和其他圆弧之间的距离

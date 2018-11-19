@@ -8,8 +8,10 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -27,18 +29,11 @@ public class ProgressBarView extends View {
 
     private static final String TAG ="ProgressBarView" ;
 
-    /**
-     * 获取进度条的种类
-     */
-    private int type;
-    /**
-     * 进度条发送数据时候圆弧的颜色
-     */
-    private int sendColor;
-    /**
-     * 进度接收数据时候圆弧的颜色
-     */
-    private int receiveColor;
+    private int startColor;
+
+    private int endColor;
+
+    private int shadowColor;
     /**
      * 没发数据时候  进度条默认圆弧的颜色
      */
@@ -70,6 +65,9 @@ public class ProgressBarView extends View {
     private Paint defaultCirclePaint;
     private Paint circlePaint;
 
+    private String text;
+
+    private SweepGradient sweepGradient;
 
     public ProgressBarView(Context context) {
         this(context,null);
@@ -82,10 +80,11 @@ public class ProgressBarView extends View {
     public ProgressBarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ProgressBarView);
-        type = typedArray.getInteger(R.styleable.ProgressBarView_progressbar_type,1);
-        sendColor =typedArray.getColor(R.styleable.ProgressBarView_progressbar_send_color, Color.BLACK);
-        receiveColor=typedArray.getColor(R.styleable.ProgressBarView_progressbar_receive_color,Color.WHITE);
+
         defaultColor=typedArray.getColor(R.styleable.ProgressBarView_progressbar_default_color,Color.WHITE);
+        startColor=typedArray.getColor(R.styleable.ProgressBarView_progressbar_color_start,Color.WHITE);
+        endColor = typedArray.getColor(R.styleable.ProgressBarView_progressbar_color_end,Color.WHITE);
+        shadowColor = typedArray.getColor(R.styleable.ProgressBarView_progressbar_shadow_color,Color.WHITE);
         insideCircleRadius=typedArray.getDimension(R.styleable.ProgressBarView_progressbar_inside_circle_radius,50);
         outsideCircleRadius=typedArray.getDimension(R.styleable.ProgressBarView_progressbar_outside_circle_radius,50);
         circleWidth = typedArray.getDimension(R.styleable.ProgressBarView_progressbar_circle_width,40);
@@ -98,7 +97,7 @@ public class ProgressBarView extends View {
         circlePaint = new Paint();
         circlePaint.setStyle(Paint.Style.FILL);
         circlePaint.setAntiAlias(true);
-
+        text="60%";
     }
 
     @Override
@@ -106,16 +105,20 @@ public class ProgressBarView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         centerX=w/2;
         centerY=h/2;
-        startAngle=-90;
+        startAngle=0;
+        if(progress!=360){
+            startAngle+=10;
+            progress-=10;
+            sweepGradient = new SweepGradient(centerX,centerY,new int[]{startColor,endColor},new float[]{0,progress/360f});
+        }else{
+            sweepGradient = new SweepGradient(centerX,centerY,new int[]{startColor,endColor,startColor},new float[]{0,0.8f,1f});
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
-        if(progress!=360){
-            startAngle+=2;
-            progress-=2;
-        }
+        drawShadow(canvas);
         //绘制默认的圆弧
         drawDefaultCircularArc(canvas);
 //        当有进度的时候，根据类型来绘制不同的圆弧
@@ -123,6 +126,8 @@ public class ProgressBarView extends View {
 
         drawSemicircle(canvas,startAngle,false);
         drawSemicircle(canvas,startAngle+progress,true);
+
+        drawText(canvas,text);
     }
 
     /***
@@ -131,13 +136,18 @@ public class ProgressBarView extends View {
      */
     public void setProgress(int progress){
         this.progress=progress;
+        text=String.valueOf(progress/100)+"%";
+        if(progress!=360){
+            startAngle+=10;
+            progress-=10;
+            sweepGradient = new SweepGradient(centerX,centerY,new int[]{startColor,endColor},new float[]{0,progress/360f});
+        }else{
+            sweepGradient = new SweepGradient(centerX,centerY,new int[]{startColor,endColor,startColor},new float[]{0,0.8f,1f});
+        }
         invalidate();
     }
 
-    public void setType(int type){
-        this.type=type;
-        invalidate();
-    }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -154,57 +164,83 @@ public class ProgressBarView extends View {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void drawTypeCircularArc(Canvas canvas){
-        LinearGradient linearGradient;
-        if(type==1){
-//            circlePaint.setColor(sendColor);
-            linearGradient = new LinearGradient(centerX-outsideCircleRadius-circleWidth,
-                    centerY-outsideCircleRadius-circleWidth,
-                    centerX+outsideCircleRadius+circleWidth,
-                    centerY+outsideCircleRadius+circleWidth
-                    ,new int[]{Color.parseColor("#24c3FF"),Color.parseColor("#1991FF")},
-                    null, Shader.TileMode.CLAMP);
-            circlePaint.setShader(linearGradient);
-        }else{
-            circlePaint.setColor(receiveColor);
-        }
+        circlePaint.setShader(sweepGradient);
         RectF outRectF = new RectF(centerX-outsideCircleRadius-circleWidth,centerY-outsideCircleRadius-circleWidth,
                 centerX+outsideCircleRadius+circleWidth,centerY+outsideCircleRadius+circleWidth);
         RectF insideRectF = new RectF(centerX-insideCircleRadius+circleWidth,centerY-insideCircleRadius+circleWidth,
                 centerX+insideCircleRadius-circleWidth,centerY+insideCircleRadius-circleWidth);
         int sc=canvas.saveLayer(outRectF,circlePaint);
+        canvas.translate(centerX,centerY);
+        canvas.rotate(-90);
+        canvas.translate(-centerX,-centerY);
         canvas.drawArc(insideRectF,startAngle,progress,true,circlePaint);
         circlePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
         canvas.drawArc(outRectF,startAngle,progress, true,circlePaint);
         circlePaint.setAlpha(0);
         canvas.drawCircle(centerX,centerY,insideCircleRadius-circleWidth,circlePaint);
         canvas.restoreToCount(sc);
+        circlePaint.reset();
+        circlePaint.setShader(sweepGradient);
     }
 
     /**
      * 绘制两端的小圆
      * @param canvas
      */
-    private void drawSemicircle(Canvas canvas,int angle,boolean isClockwise){
-        circlePaint.reset();
-        if(type==1){
-            circlePaint.setColor(sendColor);
-        }else{
-            circlePaint.setColor(receiveColor);
-        }
+    private void drawSemicircle(Canvas canvas,int startAngle,boolean isClockwise){
+        canvas.save();
+        canvas.translate(centerX,centerY);
+        canvas.rotate(-90);
+        canvas.translate(-centerX,-centerY);
         int sweepAngle= isClockwise? 180:-180;
-        angle = isClockwise? angle-1:angle+1;
-        double anglePi = Math.toRadians(angle);
+        startAngle = isClockwise? startAngle-1:startAngle+1;
+        double anglePi = Math.toRadians(startAngle);
         float radius = insideCircleRadius+(outsideCircleRadius-insideCircleRadius)/2;
         float circleRadius = radius-insideCircleRadius+circleWidth;
         float circleCenterY= (float) (Math.sin(anglePi)*radius+centerY);
         float circleCenterX = (float) (Math.cos(anglePi)*radius+centerX);
-        Log.d(TAG,"circleCenterX:"+circleCenterX);
-        Log.d(TAG,"centerX:"+centerX);
         RectF rectF = new RectF(circleCenterX-circleRadius,circleCenterY-circleRadius,
                 circleCenterX+circleRadius,circleCenterY+circleRadius);
-        canvas.drawArc(rectF,angle,sweepAngle,true,circlePaint);
+        canvas.drawArc(rectF,startAngle,sweepAngle,true,circlePaint);
+        canvas.restore();
     }
 
+
+    private void drawText(Canvas canvas,String text){
+        Paint textPaint = new Paint();
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(50);
+        Paint.FontMetrics fp = textPaint.getFontMetrics();
+        float length = textPaint.measureText(text);
+        canvas.drawText(text,centerX-length/2,centerY-fp.top/2-fp.bottom/2,textPaint);
+    }
+
+    /**
+     * 绘制阴影部分
+     * @param canvas
+     */
+    private void drawShadow(Canvas canvas){
+        canvas.save();
+        canvas.translate(centerX,centerY);
+        canvas.rotate(-90);
+        canvas.translate(-centerX,-centerY);
+        RadialGradient radialGradient = new RadialGradient(centerX,centerY,insideCircleRadius,new int[]{Color.TRANSPARENT,shadowColor},new float[]{0.8f,0.9f}, Shader.TileMode.CLAMP);
+        Paint shadowPaint = new Paint();
+        shadowPaint.setColor(shadowColor);
+        shadowPaint.setAlpha(180);
+        shadowPaint.setShader(radialGradient);
+        RectF insideRectF = new RectF(centerX-insideCircleRadius+circleWidth,centerY-insideCircleRadius+circleWidth,
+                centerX+insideCircleRadius-circleWidth,centerY+insideCircleRadius-circleWidth);
+        canvas.drawArc(insideRectF,startAngle,progress, true,shadowPaint);
+        canvas.restore();
+
+        ShadowDrawable shadowDrawable = new ShadowDrawable(shadowColor, 15,0,0,
+                startAngle,progress,insideCircleRadius,outsideCircleRadius,circleWidth);
+        shadowDrawable.setBounds(centerX-outsideCircleRadius-circleWidth,centerY-outsideCircleRadius-circleWidth,
+                centerX+outsideCircleRadius+circleWidth,centerY+outsideCircleRadius+circleWidth);
+        ShadowDrawable.setShadowDrawable(this,shadowDrawable);
+    }
 
 
 }
