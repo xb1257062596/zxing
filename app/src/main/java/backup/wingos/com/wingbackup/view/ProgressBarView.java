@@ -123,7 +123,7 @@ public class ProgressBarView extends View {
         drawDefaultCircularArc(canvas);
 //        当有进度的时候，根据类型来绘制不同的圆弧
         drawTypeCircularArc(canvas);
-
+//
         drawSemicircle(canvas,startAngle,false);
         drawSemicircle(canvas,startAngle+progress,true);
 

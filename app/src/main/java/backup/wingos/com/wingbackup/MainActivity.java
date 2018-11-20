@@ -70,9 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(content == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Intent intent = new Intent(MainActivity.this,OldPhoneActivity.class);
-                intent.putExtra("CONTENT",content);
-                startActivity(intent);
+                Toast.makeText(this, content, Toast.LENGTH_LONG).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

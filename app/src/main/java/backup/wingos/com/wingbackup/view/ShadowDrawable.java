@@ -80,7 +80,7 @@ public class ShadowDrawable extends Drawable {
 		RectF rectF = new RectF(circleCenterX-circleRadius,circleCenterY-circleRadius,
 				circleCenterX+circleRadius,circleCenterY+circleRadius);
 		canvas.drawArc(rectF,startAngle,sweepAngle,true,mShadowPaint);
-	}
+}
 
 	@Override
 	public void setAlpha(int alpha) {

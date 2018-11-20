@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="220dp"
             android:layout_weight="54"
-            android:padding="5dp"
+            android:padding="15dp"
             android:background="@drawable/qr_code_background"
             android:elevation="4dp" />
 

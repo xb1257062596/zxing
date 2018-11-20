@@ -34,7 +34,7 @@ public class NewPhoneActivity extends AppCompatActivity {
     //生成的二维码图片
     private Bitmap qrCodeBitmap;
     //二维码传输的数据
-    private String content="Hello---";
+    private String content="Hello+sjfisadfisfh---";
 
     private ImageView qrCodeImg;
 
@@ -117,14 +117,14 @@ public class NewPhoneActivity extends AppCompatActivity {
     private static BitMatrix deleteWhite(BitMatrix matrix)
     {
         int[] rec = matrix.getEnclosingRectangle();
-        //数字7 代表了留的空白区域的大小
-        int resWidth = rec[2] + 10;
-        int resHeight = rec[3] + 10;
+
+        int resWidth = rec[2] ;
+        int resHeight = rec[3] ;
         BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
         resMatrix.clear();
-        for (int i = 10; i < resWidth; i++)
+        for (int i = 0; i < resWidth; i++)
         {
-            for (int j = 10; j < resHeight; j++)
+            for (int j = 0; j < resHeight; j++)
             {
                 if(matrix.get(i+rec[0],j+rec[1]))
                     resMatrix.set(i,j);
