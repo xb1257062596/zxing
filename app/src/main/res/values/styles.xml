@@ -18,10 +18,16 @@
     </style>
 
     <declare-styleable name="ProgressBarView">
+<<<<<<< HEAD
         <attr name="progressbar_color_start" format="color"></attr> //圆弧的颜色
         <attr name="progressbar_color_end" format="color"></attr>
         <attr name="progressbar_default_color" format="color"></attr>
         <attr name="progressbar_shadow_color" format="color"></attr>  //阴影的颜色
+=======
+        <attr name="progressbar_end_color" format="color"></attr> //圆弧结束时候的颜色
+        <attr name="progressbar_start_color" format="color"></attr> //圆弧起始时候的颜色
+        <attr name="progressbar_default_color" format="color"></attr> //圆弧默认的颜色
+>>>>>>> 43dedc115612f05daef2b845d5eb7363256d6d4e
         <attr name="progressbar_inside_circle_radius" format="dimension"/> //内部圆的半径
         <attr name="progressbar_outside_circle_radius" format="dimension"/> //外部圆的半径
         <attr name="progressbar_circle_width" format="dimension"/>   //默认圆弧和其他圆弧之间的距离

@@ -13,9 +13,13 @@
         app:progressbar_outside_circle_radius="56dp"
         app:progressbar_circle_width="4dp"
         app:progressbar_default_color="#EAF0FD"
+<<<<<<< HEAD
         app:progressbar_color_start="#25C3FF"
         app:progressbar_color_end="#0955FF"
         app:progressbar_progress="180"
         app:progressbar_shadow_color="#99024BBF"/>
+=======
+        app:progressbar_send_color="#137DFF"/>
+>>>>>>> 43dedc115612f05daef2b845d5eb7363256d6d4e
 
 </LinearLayout>
